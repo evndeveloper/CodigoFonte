@@ -35,10 +35,12 @@ public class Servico extends Service implements Runnable, Contador {
     @Override
     public void onCreate() {
         Log.i(CATEGORIA, "ExemploServico.onCreate()");
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(CATEGORIA, "ExemploServico.onStartCommand");
         count = 0;
         ativo = true;
         new Thread(this, "ExemploServico-" + startId).start();
