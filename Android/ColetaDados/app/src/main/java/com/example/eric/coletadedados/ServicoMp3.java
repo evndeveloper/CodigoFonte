@@ -19,6 +19,7 @@ public class ServicoMp3 extends Service implements InterfaceMp3 {
     protected int count;
     private boolean ativo;
     private final ConexaoInterfaceMp3 conexao = new ConexaoInterfaceMp3();
+    private ThreadServico threadAtiva;
 
     @Nullable
     @Override
@@ -30,26 +31,28 @@ public class ServicoMp3 extends Service implements InterfaceMp3 {
     @Override
     public void onCreate() {
         Log.i(CATEGORIA, "ServicoMp3 onCreate()");
+        ativo = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(CATEGORIA, "ServicoMp3 onStart()");
-        //setThread();
+
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
+        Log.i(CATEGORIA, "Chama onDestroy");
         super.onDestroy();
         ativo = false;
     }
 
-    public void setThread(){
+    /*public void setThread(){
         Log.i(CATEGORIA, "Entrou no SetThread");
         count = 0;
         ativo = true;
-        new Thread(){
+        new Thread("ACAO"){
             public void run(){
                 while (ativo && count < MAX){
                     try{
@@ -61,16 +64,19 @@ public class ServicoMp3 extends Service implements InterfaceMp3 {
                     count++;
                 }
                 Log.i(CATEGORIA, "ExemploServico fim.");
-                stopSelf();
+                ativo = false;
+
             }
         }.start();
-    }
-
-
+    }*/
 
     @Override
     public void start() {
-        setThread();
+        if (!ativo){
+            //setThread();
+            threadAtiva = new ThreadServico();
+            threadAtiva.start();
+        }
     }
 
     @Override
@@ -82,7 +88,7 @@ public class ServicoMp3 extends Service implements InterfaceMp3 {
     @Override
     public void stop() {
         Log.i(CATEGORIA, "Chamou o método stop() da classe ServicoMp3");
-        stopSelf();
+
     }
 
     public class ConexaoInterfaceMp3 extends Binder{

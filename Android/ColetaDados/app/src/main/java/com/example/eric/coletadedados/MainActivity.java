@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startService(new Intent(this, ServicoMp3.class));
 
         Log.i(CATEGORIA, "Chamando bindService()...");
-        boolean b = bindService(new Intent(this, ServicoMp3.class), conexao, Context.BIND_AUTO_CREATE);
+        boolean b = bindService(new Intent(this, ServicoMp3.class), conexao, 0);
         Log.i(CATEGORIA, "bindService retorno: " + b);
     }
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i(CATEGORIA, "Parando o servico...");
                 stopService(new Intent(this, ServicoMp3.class));
                 unbindService(conexao);
+
 
             }else if (view == btnContador){
                 int contador = interfaceMp3.contador();
