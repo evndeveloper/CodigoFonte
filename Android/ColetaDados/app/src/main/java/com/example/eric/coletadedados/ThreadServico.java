@@ -9,8 +9,9 @@ import android.util.Log;
 public class ThreadServico extends Thread {
 
     private static final String CATEGORIA = "livro";
-    private static final int MAX = 10;
+    private static final int MAX = 100;
     protected int count;
+
 
     public void run(){
         Log.i(CATEGORIA, "Entrou no SetThread");
@@ -21,11 +22,16 @@ public class ThreadServico extends Thread {
                 Log.i(CATEGORIA, "ExemploServico executando... " + count);
                 Thread.sleep(1000);
             }catch (InterruptedException e){
-                e.printStackTrace();
+                //e.printStackTrace();
+                count = 100;
             }
             count++;
         }
         Log.i(CATEGORIA, "ExemploServico fim.");
 
+    }
+
+    public int retornaContador(){
+        return count;
     }
 }

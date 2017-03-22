@@ -4,76 +4,78 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 /**
- * Created by eric on 20/03/2017.
+ * Created by eric on 21/03/2017.
  */
 
-public class Servico extends Service implements Runnable, Contador {
+public class Servico extends Service implements InterfaceMetodos {
 
-    private final IBinder conexao = new LocalBinder();
-    private static final int MAX = 10;
     private static final String CATEGORIA = "livro";
     protected int count;
     private boolean ativo;
-
-    public class LocalBinder extends Binder{
-        public Contador getObjetoServico(){
-            return Servico.this;
-        }
-    }
+    private final ConexaoInterfaceMp3 conexao = new ConexaoInterfaceMp3();
+    private ThreadServico threadAtiva;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.i(CATEGORIA, "ServicoMp3onBind(). Aqui retorna o IBinder");
         return conexao;
     }
 
     @Override
     public void onCreate() {
-        Log.i(CATEGORIA, "ExemploServico.onCreate()");
-
+        Log.i(CATEGORIA, "ServicoMp3 onCreate()");
+        ativo = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(CATEGORIA, "ExemploServico.onStartCommand");
-        count = 0;
-        ativo = true;
-        new Thread(this, "ExemploServico-" + startId).start();
+        Log.i(CATEGORIA, "ServicoMp3 onStart()");
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
-    public void run() {
-        while (ativo && count < MAX){
-            fazAlgumaCoisa();
-            Log.i(CATEGORIA, "ExemploServico executando... " + count);
-            count++;
-        }
-        Log.i(CATEGORIA, "ExemploServico fim.");
-        stopSelf();
-    }
-
-    private void fazAlgumaCoisa(){
-        try{
-            Thread.sleep(1000);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void onDestroy() {
+        Log.i(CATEGORIA, "Chama onDestroy");
+        super.onDestroy();
         ativo = false;
-        Log.i(CATEGORIA, "ExemploServico.onDestroy()");
     }
 
     @Override
-    public int retornaContador() {
+    public void start() {
+        Log.i(CATEGORIA, "Chama start");
+        if (!ativo){
+            ativo = true;
+            //threadAtiva = new ThreadServico();
+            //threadAtiva.start();
+            Localizacao localizacao = new Localizacao();
+            localizacao.chamaLocalizacao();;
+        }
+    }
+
+    @Override
+    public int contador() {
+        Log.i(CATEGORIA, "Chamou o método contador() da classe ServicoMp3");
+        count = threadAtiva.retornaContador();
         return count;
     }
+
+    @Override
+    public void stop() {
+        Log.i(CATEGORIA, "Chamou o método stop() da classe ServicoMp3");
+        ativo = false;
+        threadAtiva.interrupt();
+    }
+
+    public class ConexaoInterfaceMp3 extends Binder{
+        public InterfaceMetodos getService(){
+            return Servico.this;
+        }
+    }
+
+
 }
