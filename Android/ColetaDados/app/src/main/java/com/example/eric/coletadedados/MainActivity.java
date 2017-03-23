@@ -16,11 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String CATEGORIA = "livro";
 
@@ -29,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnParar;
     private Button btnContador;
 
-    private GoogleApiClient mGoogleApiClient;
 
     private ServiceConnection conexao = new ServiceConnection() {
         @Override
@@ -76,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 interfaceMetodos.start();
 
             }else if (view == btnParar){
-                Log.i(CATEGORIA, "Parando o servico...");
-                interfaceMetodos.stop();
+                //Log.i(CATEGORIA, "Parando o servico...");
+                //interfaceMetodos.stop();
 
             }else if (view == btnContador){
-                int contador = interfaceMetodos.contador();
-                Toast.makeText(this, "Contador: " + contador, Toast.LENGTH_LONG).show();
+                //int contador = interfaceMetodos.contador();
+                //Toast.makeText(this, "Contador: " + contador, Toast.LENGTH_LONG).show();
             }
         }catch (Exception e){
 
@@ -95,47 +91,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //unbindService(conexao);
     }
 
-    private synchronized void callConnection() {
-        Log.i(CATEGORIA, "callConnection()");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addOnConnectionFailedListener(this)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .build();
-        Log.i(CATEGORIA, "connect");
-        mGoogleApiClient.connect();
 
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.i("LOG", "onConnected(" + bundle + ")");
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if(l != null){
-            Log.i("LOG", "latitude: "+l.getLatitude());
-            Log.i("LOG", "longitude: "+l.getLongitude());
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(CATEGORIA, "onConnectionSuspended: " + i);
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(CATEGORIA, "onConnectionFailed: " + connectionResult);
-    }
 }

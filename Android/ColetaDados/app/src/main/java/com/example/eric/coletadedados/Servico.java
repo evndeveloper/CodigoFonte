@@ -22,32 +22,32 @@ public class Servico extends Service implements InterfaceMetodos {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.i(CATEGORIA, "ServicoMp3onBind(). Aqui retorna o IBinder");
+        Log.i(CATEGORIA, "onBind(). Aqui retorna o IBinder");
         return conexao;
     }
 
     @Override
     public void onCreate() {
-        Log.i(CATEGORIA, "ServicoMp3 onCreate()");
+        Log.i(CATEGORIA, "onCreate()");
         ativo = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(CATEGORIA, "ServicoMp3 onStart()");
+        Log.i(CATEGORIA, "onStartCommand()");
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
-        Log.i(CATEGORIA, "Chama onDestroy");
+        Log.i(CATEGORIA, "onDestroy");
         super.onDestroy();
         ativo = false;
     }
 
     @Override
     public void start() {
-        Log.i(CATEGORIA, "Chama start");
+        Log.i(CATEGORIA, "start()");
         if (!ativo){
             ativo = true;
             //threadAtiva = new ThreadServico();

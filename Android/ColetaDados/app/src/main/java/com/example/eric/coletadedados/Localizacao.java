@@ -1,5 +1,6 @@
 package com.example.eric.coletadedados;
 
+import android.app.Application;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -18,10 +19,12 @@ import com.google.android.gms.location.LocationServices;
  * Created by eric on 22/03/2017.
  */
 
-public class Localizacao extends MainActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Localizacao implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String CATEGORIA = "livro";
     private GoogleApiClient mGoogleApiClient;
+
+
 
     public void chamaLocalizacao(){
         Log.i(CATEGORIA, "chamaLocalizacao");
@@ -30,35 +33,23 @@ public class Localizacao extends MainActivity implements GoogleApiClient.Connect
 
     private synchronized void callConnection() {
         Log.i(CATEGORIA, "callConnection()");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(ApplicationContextProvider.getContext())
                 .addOnConnectionFailedListener(Localizacao.this)
                 .addConnectionCallbacks(Localizacao.this)
                 .addApi(LocationServices.API)
                 .build();
-        Log.i(CATEGORIA, "connect");
         mGoogleApiClient.connect();
 
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.i("LOG", "onConnected(" + bundle + ")");
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+    public void onConnected(Bundle bundle) {
+        Log.i(CATEGORIA, "onConnected()");
         Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if(l != null){
-            Log.i("LOG", "latitude: "+l.getLatitude());
-            Log.i("LOG", "longitude: "+l.getLongitude());
+            Log.i(CATEGORIA, "latitude: "+l.getLatitude());
+            Log.i(CATEGORIA, "longitude: "+l.getLongitude());
         }
     }
 
