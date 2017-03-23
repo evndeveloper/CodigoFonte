@@ -7,6 +7,6 @@ package com.example.eric.coletadedados;
 public interface InterfaceMetodos {
 
     public void start();
-    public int contador();
+    public boolean retornaStatus();
     public void stop();
 }

@@ -43,7 +43,7 @@
             android:id="@+id/btnContador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contador"
+            android:text="Status"
             tools:layout_editor_absoluteX="137dp"
             tools:layout_editor_absoluteY="159dp"
             android:layout_below="@+id/btnIniciar"

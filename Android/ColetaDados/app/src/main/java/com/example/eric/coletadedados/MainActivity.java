@@ -72,12 +72,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 interfaceMetodos.start();
 
             }else if (view == btnParar){
-                //Log.i(CATEGORIA, "Parando o servico...");
-                //interfaceMetodos.stop();
+                Log.i(CATEGORIA, "Parando o servico...");
+                interfaceMetodos.stop();
 
             }else if (view == btnContador){
-                //int contador = interfaceMetodos.contador();
-                //Toast.makeText(this, "Contador: " + contador, Toast.LENGTH_LONG).show();
+                boolean status = interfaceMetodos.retornaStatus();
+                if (status){
+                    Toast.makeText(this, "Status: Ativo", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "Status: Desativado", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }catch (Exception e){
 

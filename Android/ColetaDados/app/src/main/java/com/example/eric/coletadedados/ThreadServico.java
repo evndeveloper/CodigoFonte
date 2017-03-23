@@ -9,29 +9,30 @@ import android.util.Log;
 public class ThreadServico extends Thread {
 
     private static final String CATEGORIA = "livro";
-    private static final int MAX = 100;
-    protected int count;
+    protected boolean ativo = false;
 
 
     public void run(){
-        Log.i(CATEGORIA, "Entrou no SetThread");
-        count = 0;
-
-        while (count < MAX){
+        Log.i(CATEGORIA, "run()");
+        ativo = true;
+        Localizacao localizacao = new Localizacao();
+        while (ativo == true){
             try{
-                Log.i(CATEGORIA, "ExemploServico executando... " + count);
-                Thread.sleep(1000);
+                Log.i(CATEGORIA, "ExemploServico executando... ");
+                localizacao.chamaLocalizacao();
+                Thread.sleep(5000);
             }catch (InterruptedException e){
+                Log.i(CATEGORIA, "InterruptedException");
                 //e.printStackTrace();
-                count = 100;
+                ativo = false;
             }
-            count++;
         }
+        ativo = false;
         Log.i(CATEGORIA, "ExemploServico fim.");
 
     }
 
-    public int retornaContador(){
-        return count;
+    public boolean retornaAtivo(){
+        return ativo;
     }
 }

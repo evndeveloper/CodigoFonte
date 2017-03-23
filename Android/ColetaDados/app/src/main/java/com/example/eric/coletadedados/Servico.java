@@ -14,7 +14,6 @@ import android.util.Log;
 public class Servico extends Service implements InterfaceMetodos {
 
     private static final String CATEGORIA = "livro";
-    protected int count;
     private boolean ativo;
     private final ConexaoInterfaceMp3 conexao = new ConexaoInterfaceMp3();
     private ThreadServico threadAtiva;
@@ -50,23 +49,21 @@ public class Servico extends Service implements InterfaceMetodos {
         Log.i(CATEGORIA, "start()");
         if (!ativo){
             ativo = true;
-            //threadAtiva = new ThreadServico();
-            //threadAtiva.start();
-            Localizacao localizacao = new Localizacao();
-            localizacao.chamaLocalizacao();;
+            threadAtiva = new ThreadServico();
+            threadAtiva.start();
         }
     }
 
     @Override
-    public int contador() {
-        Log.i(CATEGORIA, "Chamou o método contador() da classe ServicoMp3");
-        count = threadAtiva.retornaContador();
-        return count;
+    public boolean retornaStatus() {
+        Log.i(CATEGORIA, "Chamou o método retornaStatus()");
+        ativo = threadAtiva.retornaAtivo();
+        return ativo;
     }
 
     @Override
     public void stop() {
-        Log.i(CATEGORIA, "Chamou o método stop() da classe ServicoMp3");
+        Log.i(CATEGORIA, "Chamou o método stop()");
         ativo = false;
         threadAtiva.interrupt();
     }
