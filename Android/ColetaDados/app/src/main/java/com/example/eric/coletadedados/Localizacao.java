@@ -23,6 +23,8 @@ public class Localizacao implements GoogleApiClient.ConnectionCallbacks, GoogleA
 
     private static final String CATEGORIA = "livro";
     private GoogleApiClient mGoogleApiClient;
+    private String latitude;
+    private String longitude;
 
 
 
@@ -48,8 +50,10 @@ public class Localizacao implements GoogleApiClient.ConnectionCallbacks, GoogleA
         Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if(l != null){
-            Log.i(CATEGORIA, "latitude: "+l.getLatitude());
-            Log.i(CATEGORIA, "longitude: "+l.getLongitude());
+            //Log.i(CATEGORIA, "latitude: "+l.getLatitude());
+            //Log.i(CATEGORIA, "longitude: "+l.getLongitude());
+            latitude = String.valueOf(l.getLatitude());
+            longitude = String.valueOf(l.getLongitude());
         }
     }
 
@@ -63,5 +67,8 @@ public class Localizacao implements GoogleApiClient.ConnectionCallbacks, GoogleA
         Log.i(CATEGORIA, "onConnectionFailed: " + connectionResult);
     }
 
+    public String retornaLocalizacao(){
+        return latitude + ";" + longitude;
+    }
 
 }
