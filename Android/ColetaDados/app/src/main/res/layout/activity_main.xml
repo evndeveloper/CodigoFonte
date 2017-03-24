@@ -16,28 +16,29 @@
             android:id="@+id/btnIniciar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="68dp"
-            android:layout_marginStart="68dp"
-            android:layout_marginTop="69dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
             android:text="Iniciar"
             tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="55dp" />
+            tools:layout_editor_absoluteY="55dp"
+            android:layout_alignBaseline="@+id/btnParar"
+            android:layout_alignBottom="@+id/btnParar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/btnParar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="49dp"
-            android:layout_marginStart="49dp"
             android:text="Parar"
             tools:layout_editor_absoluteX="220dp"
             tools:layout_editor_absoluteY="55dp"
-            android:layout_above="@+id/btnContador"
-            android:layout_toRightOf="@+id/btnIniciar"
-            android:layout_toEndOf="@+id/btnIniciar" />
+            android:layout_alignBaseline="@+id/btnContador"
+            android:layout_alignBottom="@+id/btnContador"
+            android:layout_toLeftOf="@+id/btnContador"
+            android:layout_toStartOf="@+id/btnContador"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp" />
 
         <Button
             android:id="@+id/btnContador"
@@ -46,9 +47,45 @@
             android:text="Status"
             tools:layout_editor_absoluteX="137dp"
             tools:layout_editor_absoluteY="159dp"
-            android:layout_below="@+id/btnIniciar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="55dp" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log do Sistema"
+            android:textSize="24sp"
+            android:layout_marginTop="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btnContador"
+            android:layout_toStartOf="@+id/btnContador" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/btnIniciar"
+            android:layout_alignStart="@+id/btnIniciar"
+            android:layout_below="@+id/textView"
+            android:layout_marginTop="37dp"
+            android:text="Status: Coleta Parada"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_gravacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Local de Gravação:"
+            android:textSize="18sp"
+            android:layout_below="@+id/tv_status"
+            android:layout_alignLeft="@+id/tv_status"
+            android:layout_alignStart="@+id/tv_status" />
 
     </RelativeLayout>
 

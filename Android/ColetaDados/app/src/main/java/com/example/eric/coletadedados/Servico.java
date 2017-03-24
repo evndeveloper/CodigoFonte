@@ -29,6 +29,7 @@ public class Servico extends Service implements InterfaceMetodos {
     public void onCreate() {
         Log.i(CATEGORIA, "onCreate()");
         ativo = false;
+        threadAtiva = new ThreadServico();
     }
 
     @Override
@@ -49,7 +50,6 @@ public class Servico extends Service implements InterfaceMetodos {
         Log.i(CATEGORIA, "start()");
         if (!ativo){
             ativo = true;
-            threadAtiva = new ThreadServico();
             threadAtiva.start();
         }
     }

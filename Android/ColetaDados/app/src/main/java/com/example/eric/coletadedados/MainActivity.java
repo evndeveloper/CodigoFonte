@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -25,15 +26,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnIniciar;
     private Button btnParar;
     private Button btnContador;
+    private TextView tvStatus;
+    private TextView tvGravacao;
 
 
     private ServiceConnection conexao = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(CATEGORIA, "onServiceConnected, serviço conectado");
+            Log.i("ONSERVICO", "onServiceConnected, serviço conectado");
             Servico.ConexaoInterfaceMp3 conexao = (Servico.ConexaoInterfaceMp3) service;
             Log.i(CATEGORIA, "Recuperada a interface para controlar o service");
             interfaceMetodos = conexao.getService();
+
         }
 
         @Override
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
+
+        tvStatus = (TextView) findViewById(R.id.tv_status);
+        tvGravacao = (TextView) findViewById(R.id.tv_gravacao);
 
         btnIniciar = (Button) findViewById(R.id.btnIniciar);
         btnIniciar.setOnClickListener(this);
@@ -66,10 +73,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(CATEGORIA, "onResume() MainActivity");
+        if (interfaceMetodos != null){
+            boolean status = interfaceMetodos.retornaStatus();
+            if (status){
+                tvStatus.setText("Status: Coletando Dados...");
+            }else {
+                tvStatus.setText("Status: Coleta Parada");
+            }
+        }
+
+    }
+
+    @Override
     public void onClick(View view) {
         try {
             if (view == btnIniciar){
                 interfaceMetodos.start();
+                boolean status = interfaceMetodos.retornaStatus();
+                if (status){
+                    tvStatus.setText("Status: Coletando Dados...");
+                }else {
+                    tvStatus.setText("Status: Coleta Parada");
+                }
 
             }else if (view == btnParar){
                 Log.i(CATEGORIA, "Parando o servico...");
@@ -93,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         Log.i(CATEGORIA, "Activity destrída! Mas o serviço continua...");
-        //unbindService(conexao);
+        unbindService(conexao);
+
     }
 
 
