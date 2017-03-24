@@ -48,11 +48,10 @@ public class ThreadServico extends Thread {
                 Log.i(CATEGORIA, "InterruptedException");
                 //e.printStackTrace();
                 ativo = false;
-
             }
         }
         ativo = false;
-        Log.i(CATEGORIA, "ExemploServico fim.");
+
 
     }
 

@@ -6,6 +6,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.net.URISyntaxException;
 
 /**
  * Created by eric on 21/03/2017.
@@ -17,6 +20,7 @@ public class Servico extends Service implements InterfaceMetodos {
     private boolean ativo;
     private final ConexaoInterfaceMp3 conexao = new ConexaoInterfaceMp3();
     private ThreadServico threadAtiva;
+    private MainActivity mainActivity;
 
     @Nullable
     @Override
@@ -29,7 +33,7 @@ public class Servico extends Service implements InterfaceMetodos {
     public void onCreate() {
         Log.i(CATEGORIA, "onCreate()");
         ativo = false;
-        threadAtiva = new ThreadServico();
+
     }
 
     @Override
@@ -48,8 +52,11 @@ public class Servico extends Service implements InterfaceMetodos {
     @Override
     public void start() {
         Log.i(CATEGORIA, "start()");
-        if (!ativo){
+        Log.i(CATEGORIA, "ativo: " + ativo);
+        if (ativo == false){
             ativo = true;
+            MainActivity.tvStatus.setText("Status: Coletando Dados...");
+            threadAtiva = new ThreadServico();
             threadAtiva.start();
         }
     }
@@ -57,7 +64,7 @@ public class Servico extends Service implements InterfaceMetodos {
     @Override
     public boolean retornaStatus() {
         Log.i(CATEGORIA, "Chamou o método retornaStatus()");
-        ativo = threadAtiva.retornaAtivo();
+        //ativo = threadAtiva.retornaAtivo();
         return ativo;
     }
 
@@ -66,6 +73,8 @@ public class Servico extends Service implements InterfaceMetodos {
         Log.i(CATEGORIA, "Chamou o método stop()");
         ativo = false;
         threadAtiva.interrupt();
+        MainActivity.tvStatus.setText("Status: Coleta Parada");
+        Log.i(CATEGORIA, "ExemploServico fim.");
     }
 
     public class ConexaoInterfaceMp3 extends Binder{

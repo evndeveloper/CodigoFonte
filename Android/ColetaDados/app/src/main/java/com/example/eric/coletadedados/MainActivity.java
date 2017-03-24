@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnIniciar;
     private Button btnParar;
     private Button btnContador;
-    private TextView tvStatus;
+    public static TextView tvStatus;
     private TextView tvGravacao;
 
 
@@ -54,21 +56,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvStatus = (TextView) findViewById(R.id.tv_status);
         tvGravacao = (TextView) findViewById(R.id.tv_gravacao);
+        tvGravacao.setText("Local de Gravação: " + System.getenv("EXTERNAL_STORAGE") + "/coleta.txt");
 
         btnIniciar = (Button) findViewById(R.id.btnIniciar);
         btnIniciar.setOnClickListener(this);
 
         btnParar = (Button) findViewById(R.id.btnParar);
+        btnParar.setEnabled(false);
         btnParar.setOnClickListener(this);
 
         btnContador = (Button) findViewById(R.id.btnContador);
         btnContador.setOnClickListener(this);
 
         Log.i(CATEGORIA, "Chamando startService()...");
-        startService(new Intent(this, Servico.class));
+        MainActivity mainActivity = this;
+        Intent startService = new Intent(this, Servico.class);
+        //startService.putExtra("OBJETO", mainActivity);
+        startService(startService);
 
         Log.i(CATEGORIA, "Chamando bindService()...");
-        boolean b = bindService(new Intent(this, Servico.class), conexao, 0);
+        boolean b = bindService(startService, conexao, 0);
         Log.i(CATEGORIA, "bindService retorno: " + b);
     }
 
@@ -80,8 +87,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             boolean status = interfaceMetodos.retornaStatus();
             if (status){
                 tvStatus.setText("Status: Coletando Dados...");
+                btnIniciar.setEnabled(false);
+                btnParar.setEnabled(true);
             }else {
                 tvStatus.setText("Status: Coleta Parada");
+                btnIniciar.setEnabled(true);
+                btnParar.setEnabled(false);
             }
         }
 
@@ -91,25 +102,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         try {
             if (view == btnIniciar){
-                interfaceMetodos.start();
-                boolean status = interfaceMetodos.retornaStatus();
-                if (status){
-                    tvStatus.setText("Status: Coletando Dados...");
-                }else {
-                    tvStatus.setText("Status: Coleta Parada");
-                }
+                btnIniciar.setEnabled(false);
+                btnParar.setEnabled(true);
+               interfaceMetodos.start();
 
             }else if (view == btnParar){
                 Log.i(CATEGORIA, "Parando o servico...");
+                btnIniciar.setEnabled(true);
+                btnParar.setEnabled(false);
                 interfaceMetodos.stop();
 
             }else if (view == btnContador){
-                boolean status = interfaceMetodos.retornaStatus();
-                if (status){
-                    Toast.makeText(this, "Status: Ativo", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(this, "Status: Desativado", Toast.LENGTH_SHORT).show();
-                }
+                //boolean status = interfaceMetodos.retornaStatus();
+                //if (status){
+                //    Toast.makeText(this, "Status: Ativo", Toast.LENGTH_SHORT).show();
+                //}else {
+                //    Toast.makeText(this, "Status: Desativado", Toast.LENGTH_SHORT).show();
+                //}
+                Intent irParaVisualizacao = new Intent(this, ActivityVisualizacao.class);
+                startActivity(irParaVisualizacao);
 
             }
         }catch (Exception e){
@@ -122,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
         Log.i(CATEGORIA, "Activity destrída! Mas o serviço continua...");
         unbindService(conexao);
+
+
 
     }
 

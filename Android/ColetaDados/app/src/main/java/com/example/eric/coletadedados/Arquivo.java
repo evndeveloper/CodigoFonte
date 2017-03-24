@@ -2,9 +2,12 @@ package com.example.eric.coletadedados;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -13,7 +16,7 @@ import java.io.IOException;
 
 public class Arquivo {
     private static final String CATEGORIA = "livro";
-    private static final String ARQUIVO = "arquivo.txt";
+    private static final String ARQUIVO = "coleta.txt";
 
     protected void salvar(String linha){
         Log.i(CATEGORIA, "salvar()");
@@ -41,6 +44,34 @@ public class Arquivo {
         }
         File file = new File(dirLocal, nomeArquivo);
         return file;
+    }
+
+    public String visualizarArquivo(){
+        Log.i(CATEGORIA, "visualizarArquivo()");
+
+        String lstrlinha;
+        String resposta = "";
+
+        File f = getFile(ARQUIVO);
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            while ((lstrlinha = br.readLine()) != null){
+                if (resposta.equals(""))
+                {
+                    resposta = lstrlinha;
+                }else{
+                    resposta += "\n" + lstrlinha;
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.i(CATEGORIA, "Resposta: " + resposta);
+        return resposta;
     }
 }
 
