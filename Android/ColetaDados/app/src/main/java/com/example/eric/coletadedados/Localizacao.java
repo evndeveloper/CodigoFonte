@@ -68,7 +68,10 @@ public class Localizacao implements GoogleApiClient.ConnectionCallbacks, GoogleA
     }
 
     public String retornaLocalizacao(){
-        return latitude + ";" + longitude;
+        String ultima_localizacao = latitude + ";" + longitude;
+        latitude = " ";
+        longitude = " ";
+        return ultima_localizacao;
     }
 
 }

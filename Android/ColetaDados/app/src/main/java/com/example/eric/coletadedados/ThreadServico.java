@@ -18,7 +18,8 @@ public class ThreadServico extends Thread {
     public void run(){
         Log.i(CATEGORIA, "run()");
         ativo = true;
-        Localizacao localizacao = new Localizacao();
+        //Localizacao localizacao = new Localizacao();
+        LocApi locApi = new LocApi();
         Bateria bateria = new Bateria();
         Memoria memoria = new Memoria();
         String linha;
@@ -26,13 +27,19 @@ public class ThreadServico extends Thread {
         while (ativo == true){
             try{
                 Log.i(CATEGORIA, "ExemploServico executando... ");
-                localizacao.chamaLocalizacao();
+                //localizacao.chamaLocalizacao();
                 Thread.sleep(5000);
 
-                Log.i(CATEGORIA, "Retorno Localização: " + localizacao.retornaLocalizacao());
-                Log.i(CATEGORIA, "Retorno Bateria: " + bateria.getPorcentagem() + "%");
-                Log.i(CATEGORIA, "Retorno Memoria Interna Livre: " + memoria.getMemoriaInternaLivre() + " bytes");
-                Log.i(CATEGORIA, "Retorno Memoria Externa Livre: " + memoria.getMemoriaExternaLivre() + " bytes");
+                //String ult_localizacao = localizacao.retornaLocalizacao();
+                String ult_localizacao = locApi.retornaLocalizacao();
+                int ult_bateria = bateria.getPorcentagem();
+                String ult_memIntLivre = memoria.getMemoriaInternaLivre();
+                String ult_memExtLivre = memoria.getMemoriaExternaLivre();
+
+                Log.i(CATEGORIA, "Retorno Localização: " + ult_localizacao);
+                Log.i(CATEGORIA, "Retorno Bateria: " + ult_bateria + "%");
+                Log.i(CATEGORIA, "Retorno Memoria Interna Livre: " + ult_memIntLivre + " bytes");
+                Log.i(CATEGORIA, "Retorno Memoria Externa Livre: " + ult_memExtLivre + " bytes");
 
                 SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
                 String dataCorrente = data.format(new Date());
@@ -40,8 +47,8 @@ public class ThreadServico extends Thread {
                 SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
                 String horaCorrente = hora.format(new Date());
 
-                linha = dataCorrente + ";" + horaCorrente + ";" + localizacao.retornaLocalizacao() + ";" + bateria.getPorcentagem() + ";" +
-                        memoria.getMemoriaInternaLivre() + ";" + memoria.getMemoriaExternaLivre();
+                linha = dataCorrente + ";" + horaCorrente + ";" + ult_localizacao + ";" + ult_bateria + ";" +
+                        ult_memIntLivre + ";" + ult_memExtLivre;
                 arquivo.salvar(linha);
 
             }catch (InterruptedException e){
