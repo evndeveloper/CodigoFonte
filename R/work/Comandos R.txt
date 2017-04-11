@@ -1,5 +1,5 @@
 GERAR MAPA COM NÓS DE DIFERENTES CORES
-,ggmap(manaus) + geom_point(data=coleta_geral,mapping = aes(x=coleta_geral$lon,y=coleta_geral$lat, color=no))
+ggmap(manaus) + geom_point(data=coleta_geral,mapping = aes(x=coleta_geral$lon,y=coleta_geral$lat, color=no))
 
 
 ENCONTRAR CONTATOS NO TRACE

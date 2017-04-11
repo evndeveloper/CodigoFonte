@@ -1,0 +1,5 @@
+library(ggmap)
+mapa <- get_map("37.757995, -122.445804", zoom=12)
+dados <- read.table("C:\\CodigoFonte\\R\\work\\mobilidade\\cabspottingdata_lat_lon_taxi\\new_abcoij.txt",head=F)
+colnames(dados) <- c("lat","lon","ocupacao","tempo")
+ggmap(mapa) + geom_point(data=dados,mapping=aes(x=dados$lon,y=dados$lat),color="red",size=0.4,alpha=0.3)
