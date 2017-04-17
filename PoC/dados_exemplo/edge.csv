@@ -1,0 +1,13 @@
+Source;Target;Type;Weight
+1;2;Directed;1
+1;6;Directed;2
+2;4;Directed;2
+2;7;Directed;3
+3;4;Directed;5
+3;1;Directed;3
+4;6;Directed;1
+4;2;Directed;3
+5;1;Directed;5
+5;6;Directed;4
+6;3;Directed;2
+6;2;Undirected;4
