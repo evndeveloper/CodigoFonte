@@ -311,8 +311,10 @@ public class DTNHost implements Comparable<DTNHost> {
 				"Interface types do not match.  Please specify interface type explicitly";
 		}
 
-		if (up) {
-			ni.createConnection(no);
+//CONECTA E DESCONECTA INTERFACE////////////////////////////////////////////////////////////////////////////
+		if (up) {			
+			ni.createConnection(no);			
+			
 		} else {
 			ni.destroyConnection(no);
 		}

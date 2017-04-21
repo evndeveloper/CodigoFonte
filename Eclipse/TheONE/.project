@@ -3,6 +3,7 @@
 	<name>TheONE</name>
 	<comment></comment>
 	<projects>
+		<project>ConexaoDB</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

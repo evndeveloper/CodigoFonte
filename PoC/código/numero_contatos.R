@@ -1,4 +1,5 @@
-dados <- read.table("C:\\CodigoFonte\\PoC\\contatos\\trace_mobilidade.txt",head=T)
+dados <- read.table("C:\\CodigoFonte\\PoC\\contatos\\trace_mobilidade_ajustado.txt",head=T)
+colnames(dados) <- c("tempo","conn","a","b","status")
 dados <- dados[order(dados$a,dados$b),]
 linhas <- nrow(dados)
 num_contatos <- data.frame(a=character(),
@@ -23,8 +24,7 @@ for(i in 1:linhas){
 		noA <- dados[i,3]
 		noB <- dados[i,4]	
 		contador <- 1
-	}
-	
+	}	
 }
 num_contatos
-write.table(num_contatos,"C:\\CodigoFonte\\PoC\\contatos\\numero_contatos.txt", row.names=FALSE)
+write.table(num_contatos,"C:\\CodigoFonte\\PoC\\contatos\\numero_contatos_trace_mobilidade_ajustado.txt", row.names=FALSE)

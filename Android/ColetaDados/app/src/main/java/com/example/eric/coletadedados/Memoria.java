@@ -26,7 +26,8 @@ public class Memoria {
 
     public static String getMemoriaExternaLivre() {
 
-            String secStore = System.getenv("SECONDARY_STORAGE");
+        String secStore = System.getenv("SECONDARY_STORAGE");
+        if(secStore != null){
             File path = new File(secStore);
             Log.i(CATEGORIA, "Pasta existe: " + path.exists());
             if (path.exists()){
@@ -38,7 +39,8 @@ public class Memoria {
             }else{
                 return "0";
             }
-
+        }
+        return "0";
     }
 
 }

@@ -1,4 +1,5 @@
-read.table("C:\\CodigoFonte\\PoC\\contatos\\trace_mobilidade.txt",head=T)
+dados <- read.table("C:\\CodigoFonte\\PoC\\contatos\\trace_mobilidade_ajustado.txt",head=F)
+colnames(dados) <- c("tempo","conn","a","b","status")
 dados <- dados[order(dados$a,dados$b),]
 linhas <- nrow(dados)
 tempo_medio_contatos <- data.frame(a=character(),
@@ -37,5 +38,5 @@ for(i in 1:linhas){
 	}	
 }
 tempo_medio_contatos
-write.table(tempo_medio_contatos,"C:\\CodigoFonte\\PoC\\contatos\\tempo_medio_contatos.txt", row.names=FALSE)
+write.table(tempo_medio_contatos,"C:\\CodigoFonte\\PoC\\contatos\\tempo_medio_contatos_trace_mobilidade_ajustado.txt", row.names=FALSE)
 

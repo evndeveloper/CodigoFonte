@@ -3,11 +3,22 @@
 #
 
 ## Scenario settings
-Scenario.name = default_scenario
-Scenario.simulateConnections = true
-Scenario.updateInterval = 0.1
+##Scenario.name = default_scenario
+Scenario.name = %%Group.movementModel%%%%Group.router%%/%%Group.movementModel%%%%Group.bufferSize%%%%Group.router%%
+
+##############################################################################
+
+##Scenario.simulateConnections = true
+Scenario.simulateConnections = false
+
+##############################################################################
+
+Scenario.updateInterval = 1
 # 43200s == 12h
-Scenario.endTime = 43200
+Scenario.endTime = 10140
+#Scenario.endTime = 16979816
+
+##############################################################################
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -28,7 +39,7 @@ highspeedInterface.transmitSpeed = 10M
 highspeedInterface.transmitRange = 1000
 
 # Define 6 different node groups
-Scenario.nrofHostGroups = 6
+Scenario.nrofHostGroups = 1
 
 ## Group-specific settings:
 # groupID : Group's identifier. Used as the prefix of host names
@@ -50,10 +61,11 @@ Scenario.nrofHostGroups = 6
 # routeType: route's type - for MapRouteMovement
 
 
+######################################################################################
 # Common settings for all groups
-Group.movementModel = ShortestPathMapBasedMovement
+Group.movementModel = RandomWaypoint
 Group.router = EpidemicRouter
-Group.bufferSize = 5M
+Group.bufferSize = 80M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
 Group.nrofInterfaces = 1
@@ -61,9 +73,14 @@ Group.interface1 = btInterface
 # Walking speeds
 Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
-Group.msgTtl = 300
+#Group.msgTtl = 300
 
-Group.nrofHosts = 40
+#####################################################################################
+Group.nrofHosts = 1113
+#Group.nrofHosts = 97
+
+
+######################################################################################
 
 # group1 (pedestrians) specific settings
 Group1.groupID = p
@@ -112,27 +129,45 @@ Group6.nrofHosts = 2
 
 ## Message creation parameters
 # How many event generators
-Events.nrof = 1
+#######################################################################################
+
+Events.nrof = 2
+
+#######################################################################################
+
+
 # Class of the first event generator
 Events1.class = MessageEventGenerator
 # (following settings are specific for the MessageEventGenerator class)
 # Creation interval in seconds (one new message every 25 to 35 seconds)
-Events1.interval = 25,35
+Events1.interval = 25,30
 # Message sizes (500kB - 1MB)
-Events1.size = 500k,1M
+#Events1.size = 500k,1M
+Events1.size = 100k, 100k
+#######################################################################################
 # range of message source/destination addresses
-Events1.hosts = 0,126
+Events1.hosts = 1,1114
+#Events1.hosts = 1,96   
+#######################################################################################
+
 # Message ID prefix
 Events1.prefix = M
+
+#######################################################################################
+
+Events2.filePath = mobilidade/trace_mobilidade_ajustado.txt
+#Events2.filePath = mobilidade/RealityConnectionTraceFinal_novo.txt
+
+#####################################################################################
 
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
-MovementModel.rngSeed = 1
+MovementModel.rngSeed = 971
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 4500, 3400
+MovementModel.worldSize = 1000, 1000
 # How long time to move hosts in the world before real simulation
-MovementModel.warmup = 1000
+MovementModel.warmup = 0
 
 ## Map based movement -movement model specific settings
 MapBasedMovement.nrofMapFiles = 4
@@ -145,7 +180,7 @@ MapBasedMovement.mapFile4 = data/shops.wkt
 ## Reports - all report names have to be valid report classes
 
 # how many reports to load
-Report.nrofReports = 2
+Report.nrofReports = 1
 # length of the warm up period (simulated seconds)
 Report.warmup = 0
 # default directory of reports (can be overridden per Report with output setting)

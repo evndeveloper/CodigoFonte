@@ -1,0 +1,12 @@
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class Main {
+
+	public static void main(String[] args) {
+		ContatoDAO contatoDAO = new ContatoDAO();
+		Contato contato = contatoDAO.getContato("300", "300");
+		System.out.println(contato.getNoA() + " --> " + contato.getNoB() + " = " + contato.getContagem());
+	}
+
+}

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Conexao.Contato;
+import Conexao.ContatoDAO;
 import routing.util.EnergyModel;
 
 import util.ActivenessHandler;
@@ -70,6 +72,8 @@ abstract public class NetworkInterface implements ModuleCommunicationListener {
 	private int activenessJitterMax;
 	/** this interface's activeness jitter value */
 	private int activenessJitterValue;
+	
+	
 
 	static {
 		DTNSim.registerForReset(NetworkInterface.class.getCanonicalName());
@@ -318,14 +322,29 @@ abstract public class NetworkInterface implements ModuleCommunicationListener {
 	protected void connect(Connection con, NetworkInterface anotherInterface) {
 		this.connections.add(con);
 		notifyConnectionListeners(CON_UP, anotherInterface.getHost());
-
+		
+		
+///////////////CONEXÃO DOS DOIS NÓS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		System.out.println("CONEXÃO: " + this.host + " ---> " + anotherInterface.getHost());
+		ContatoDAO contatoDAO = new ContatoDAO();
+		Contato contato = new Contato();
+		contato.setId(this.host.toString());
+		contato.setNoA(this.host.toString());
+		contato.setNoB(anotherInterface.getHost().toString());
+		contato.setContagem(1);
+		contatoDAO.adiciona(contato);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+		
 		// set up bidirectional connection
-		anotherInterface.getConnections().add(con);
+		anotherInterface.getConnections().add(con);		
 
 		// inform routers about the connection
 		this.host.connectionUp(con);
 		anotherInterface.getHost().connectionUp(con);
 	}
+	
+	
+	
 
 	/**
 	 * Disconnects this host from another host.  The derived class should
