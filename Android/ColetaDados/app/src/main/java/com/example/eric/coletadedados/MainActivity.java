@@ -1,13 +1,19 @@
 package com.example.eric.coletadedados;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvGravacao;
 
 
+
+
     private ServiceConnection conexao = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -39,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Servico.ConexaoInterfaceMp3 conexao = (Servico.ConexaoInterfaceMp3) service;
             Log.i(CATEGORIA, "Recuperada a interface para controlar o service");
             interfaceMetodos = conexao.getService();
-
         }
 
         @Override
@@ -49,10 +56,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
+
 
         tvStatus = (TextView) findViewById(R.id.tv_status);
         tvGravacao = (TextView) findViewById(R.id.tv_gravacao);
@@ -82,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+
         Log.i(CATEGORIA, "onResume() MainActivity");
         if (interfaceMetodos != null){
             boolean status = interfaceMetodos.retornaStatus();
@@ -113,12 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 interfaceMetodos.stop();
 
             }else if (view == btnContador){
-                //boolean status = interfaceMetodos.retornaStatus();
-                //if (status){
-                //    Toast.makeText(this, "Status: Ativo", Toast.LENGTH_SHORT).show();
-                //}else {
-                //    Toast.makeText(this, "Status: Desativado", Toast.LENGTH_SHORT).show();
-                //}
                 Intent irParaVisualizacao = new Intent(this, ActivityVisualizacao.class);
                 startActivity(irParaVisualizacao);
 
@@ -138,5 +142,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+    }
 }
