@@ -331,7 +331,6 @@ abstract public class NetworkInterface implements ModuleCommunicationListener {
 		contato.setId(this.host.toString());
 		contato.setNoA(this.host.toString());
 		contato.setNoB(anotherInterface.getHost().toString());
-		contato.setContagem(1);
 		contatoDAO.adiciona(contato);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
