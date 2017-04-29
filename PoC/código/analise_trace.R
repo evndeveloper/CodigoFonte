@@ -1,4 +1,6 @@
-dados <- read.table("C:\\CodigoFonte\\PoC\\contatos\\trace_mobilidade.txt",head=T)
+origem = "C:\\CodigoFonte\\PoC\\contatos\\infocom.txt"
+destino = "C:\\CodigoFonte\\PoC\\contatos\\analise_infocom.txt"
+dados <- read.table(origem,head=T)
 colnames(dados) <- c("tempo","conn","a","b","status")
 dados <- dados[order(dados$a,dados$b),]
 linhas <- nrow(dados)
@@ -156,11 +158,11 @@ media_cont_trace <- paste("Media Nº Contatos:", media_cont_trace, sep=" ")
 media_tempo_trace <- paste("Media Tempo de Contatos:", media_tempo_trace, sep=" ")
 media_inter_trace <- paste("Media Tempo Inter Contatos:", media_inter_trace, sep=" ")
 
-fileConn <- file("C:\\CodigoFonte\\PoC\\contatos\\analise_trace.txt")
+fileConn <- file(destino)
 writeLines(c(num_nos, total_geral_contatos, total_tipo_contatos, total_geral_tempo_contatos, 
 total_geral_inter_contatos, contato, conexao , grau_geral, grau_medio, densidade, 
 media_cont_trace, media_tempo_trace, media_inter_trace, " "), fileConn)
 close(fileConn)
 
-write.table(tab_contatos,"C:\\CodigoFonte\\PoC\\contatos\\analise_trace.txt",append = TRUE, row.names=FALSE)
+write.table(tab_contatos, destino,append = TRUE, row.names=FALSE)
 
