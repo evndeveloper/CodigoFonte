@@ -59,44 +59,49 @@ public class ThreadServico extends Thread {
 
                 //String ult_localizacao = localizacao.retornaLocalizacao();
                 String ult_localizacao = locApi.retornaLocalizacao();
-                int ult_bateria = bateria.getPorcentagem();
-                String ult_memIntLivre = memoria.getMemoriaInternaLivre();
-                String ult_memExtLivre = memoria.getMemoriaExternaLivre();
+                if(ult_localizacao != ""){
+                    Log.i(CATEGORIA, "LOCALIZAÇÃO ESTÁ DENTRO DA UFAM");
+                    int ult_bateria = bateria.getPorcentagem();
+                    String ult_memIntLivre = memoria.getMemoriaInternaLivre();
+                    String ult_memExtLivre = memoria.getMemoriaExternaLivre();
 
-                //Inicio Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
-                String statusWiFi = wifi.getStatus();
-                String statusBluetooth = bluetooth.getStatus();
-                //Fim Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
+                    //Inicio Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
+                    String statusWiFi = wifi.getStatus();
+                    String statusBluetooth = bluetooth.getStatus();
+                    //Fim Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
 
-                //CHAMA MÉTODO DO TIPO DE CONEXÃO DE DADOS
-                String connType = this.connectionType.ConnectionType();
+                    //CHAMA MÉTODO DO TIPO DE CONEXÃO DE DADOS
+                    String connType = this.connectionType.ConnectionType();
 
-                //CHAMA MÉTODO DE SCAN PONTOS WIFI
-                String pontosProximos = pontos.getPontosProximos(); //Ronaldo/Vitor
+                    //CHAMA MÉTODO DE SCAN PONTOS WIFI
+                    String pontosProximos = pontos.getPontosProximos(); //Ronaldo/Vitor
 
-                Log.i(CATEGORIA, "Retorno Localização: " + ult_localizacao);
-                Log.i(CATEGORIA, "Retorno Bateria: " + ult_bateria + "%");
-                Log.i(CATEGORIA, "Retorno Memoria Interna Livre: " + ult_memIntLivre + " bytes");
-                Log.i(CATEGORIA, "Retorno Memoria Externa Livre: " + ult_memExtLivre + " bytes");
+                    Log.i(CATEGORIA, "Retorno Localização: " + ult_localizacao);
+                    Log.i(CATEGORIA, "Retorno Bateria: " + ult_bateria + "%");
+                    Log.i(CATEGORIA, "Retorno Memoria Interna Livre: " + ult_memIntLivre + " bytes");
+                    Log.i(CATEGORIA, "Retorno Memoria Externa Livre: " + ult_memExtLivre + " bytes");
 
-                //Inicio Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
-                Log.i(CATEGORIA, "Status do WiFi: " + statusWiFi);
-                Log.i(CATEGORIA, "Status do Bluetooth: " + statusBluetooth);
-                //Fim Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
-                Log.d(CATEGORIA, "Retorno Tipo de conexão: " + connType);
-                //adição ronaldo/vitor
-                Log.i(CATEGORIA, "Retorno Pontos Proximos: " + pontosProximos);
+                    //Inicio Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
+                    Log.i(CATEGORIA, "Status do WiFi: " + statusWiFi);
+                    Log.i(CATEGORIA, "Status do Bluetooth: " + statusBluetooth);
+                    //Fim Status do WiFi e do Bluetooth (Bruno, Felipe, Wagner)
+                    Log.d(CATEGORIA, "Retorno Tipo de conexão: " + connType);
+                    //adição ronaldo/vitor
+                    Log.i(CATEGORIA, "Retorno Pontos Proximos: " + pontosProximos);
 
-                SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
-                String dataCorrente = data.format(new Date());
+                    SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+                    String dataCorrente = data.format(new Date());
 
-                SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-                String horaCorrente = hora.format(new Date());
+                    SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+                    String horaCorrente = hora.format(new Date());
 
-                linha = dataCorrente + ";" + horaCorrente + ";" + ult_localizacao + ";" + ult_bateria + ";" +
-                        ult_memIntLivre + ";" + ult_memExtLivre + ";" + statusWiFi + ";" + statusBluetooth +
-                        ';' + connType + ";" + ApplicationContextProvider.getSuportep2p() + ";" + pontosProximos;
-                arquivo.salvar(linha);
+                    linha = dataCorrente + ";" + horaCorrente + ";" + ult_localizacao + ";" + ult_bateria + ";" +
+                            ult_memIntLivre + ";" + ult_memExtLivre + ";" + statusWiFi + ";" + statusBluetooth +
+                            ';' + connType + ";" + ApplicationContextProvider.getSuportep2p() + ";" + pontosProximos;
+                    arquivo.salvar(linha);
+                }else{
+                    Log.i(CATEGORIA, "LOCALIZAÇÃO NÃO ESTÁ DENTRO DA UFAM");
+                }
 
             }catch (InterruptedException e){
                 Log.i(CATEGORIA, "InterruptedException");

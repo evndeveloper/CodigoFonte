@@ -22,6 +22,10 @@ public class LocApi {
     private static final String CATEGORIA = "livro";
     private Context contexto = ApplicationContextProvider.getContext();
     public String localizacao = "";
+    public Double minLat = -3.1047000;
+    public Double minLong = -58.9839000;
+    public Double maxLat = -3.0857000;
+    public Double maxLong = -59.9600000;
 
     public String retornaLocalizacao() {
 
@@ -44,7 +48,18 @@ public class LocApi {
                 @Override
                 public void onLocationFound(Location location) {
                     Log.i(CATEGORIA, "onLocationFound()");
-                    localizacao = Double.toString(location.getLatitude()) + ";" + Double.toString(location.getLongitude());
+                    Double latitude = location.getLatitude();
+                    Double longitude = location.getLongitude();
+                    if(latitude >= minLat && latitude <= maxLat){
+                        if(longitude >= minLong && longitude <= maxLong){
+                            localizacao = Double.toString(location.getLatitude()) + ";" + Double.toString(location.getLongitude());
+                        }else{
+                            localizacao = "";
+                        }
+                    }else{
+                        localizacao = "";
+                    }
+
                     stopListening();
                 }
 
