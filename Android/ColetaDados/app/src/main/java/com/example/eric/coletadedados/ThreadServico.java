@@ -54,8 +54,9 @@ public class ThreadServico extends Thread {
             try{
                 Log.i(CATEGORIA, "ExemploServico executando... ");
                 //localizacao.chamaLocalizacao();
-                Thread.sleep(10000);
                 ApplicationContextProvider.getContext().registerReceiver(mReceiver, mIntentFilter);
+                Thread.sleep(30000);
+
 
                 //String ult_localizacao = localizacao.retornaLocalizacao();
                 String ult_localizacao = locApi.retornaLocalizacao();
